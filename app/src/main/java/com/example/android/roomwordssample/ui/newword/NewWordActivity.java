@@ -1,4 +1,4 @@
-package com.example.android.roomwordssample;
+package com.example.android.roomwordssample.ui.newword;
 
 /*
  * Copyright (C) 2017 Google Inc.
@@ -24,21 +24,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.android.roomwordssample.R;
+
 /**
  * Activity for entering a word.
  */
 
 public class NewWordActivity extends AppCompatActivity {
 
-    public static final String EXTRA_REPLY = "com.example.android.wordlistsql.REPLY";
+    public static final String EXTRA_WORD= "com.example.android.wordlistsql.WORD";
+    public static final String EXTRA_DESCRIPTION = "com.example.android.wordlistsql.DESCRIPTION";
 
-    private  EditText mEditWordView;
+    private EditText mEditWordView;
+    private EditText mEditDescriptionView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_word);
         mEditWordView = findViewById(R.id.edit_word);
+        mEditDescriptionView = findViewById(R.id.edit_description);
 
         final Button button = findViewById(R.id.button_save);
         button.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +53,9 @@ public class NewWordActivity extends AppCompatActivity {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
                     String word = mEditWordView.getText().toString();
-                    replyIntent.putExtra(EXTRA_REPLY, word);
+                    String description = mEditDescriptionView.getText().toString();
+                    replyIntent.putExtra(EXTRA_WORD, word);
+                    replyIntent.putExtra(EXTRA_DESCRIPTION, description);
                     setResult(RESULT_OK, replyIntent);
                 }
                 finish();

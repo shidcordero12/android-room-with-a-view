@@ -21,6 +21,10 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.example.android.roomwordssample.model.Word;
+import com.example.android.roomwordssample.repository.word.WordDao;
+import com.example.android.roomwordssample.repository.word.WordRoomDatabase;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;

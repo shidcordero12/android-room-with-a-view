@@ -1,4 +1,4 @@
-package com.example.android.roomwordssample;
+package com.example.android.roomwordssample.repository.word;
 
 /*
  * Copyright (C) 2017 Google Inc.
@@ -20,16 +20,19 @@ import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+
+import com.example.android.roomwordssample.model.Word;
 
 /**
  * This is the backend. The database. This used to be done by the OpenHelper.
  * The fact that this has very few comments emphasizes its coolness.
  */
 
-@Database(entities = {Word.class}, version = 1)
+@Database(entities = {Word.class}, version = 3)
 public abstract class WordRoomDatabase extends RoomDatabase {
 
     public abstract WordDao wordDao();
@@ -44,7 +47,8 @@ public abstract class WordRoomDatabase extends RoomDatabase {
                             WordRoomDatabase.class, "word_database")
                             // Wipes and rebuilds instead of migrating if no Migration object.
                             // Migration is not part of this codelab.
-                            .fallbackToDestructiveMigration()
+                            //.fallbackToDestructiveMigration()
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                             .addCallback(sRoomDatabaseCallback)
                             .build();
                 }
@@ -52,6 +56,21 @@ public abstract class WordRoomDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
+
+    private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Since we didn't alter the table, there's nothing else to do here.
+        }
+    };
+
+    private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE word_table "
+                    + " ADD COLUMN description TEXT");
+        }
+    };
 
     /**
      * Override the onOpen method to populate the database.
@@ -86,9 +105,9 @@ public abstract class WordRoomDatabase extends RoomDatabase {
             // Not needed if you only populate on creation.
             mDao.deleteAll();
 
-            Word word = new Word("Hello");
+            Word word = new Word("Hello", "World");
             mDao.insert(word);
-            word = new Word("World");
+            word = new Word("World", "Hello");
             mDao.insert(word);
             return null;
         }

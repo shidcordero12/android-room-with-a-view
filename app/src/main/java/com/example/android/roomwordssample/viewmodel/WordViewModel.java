@@ -1,4 +1,4 @@
-package com.example.android.roomwordssample;
+package com.example.android.roomwordssample.viewmodel;
 
 /*
  * Copyright (C) 2017 Google Inc.
@@ -19,6 +19,9 @@ package com.example.android.roomwordssample;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+
+import com.example.android.roomwordssample.model.Word;
+import com.example.android.roomwordssample.repository.word.WordRepository;
 
 import java.util.List;
 
@@ -42,7 +45,7 @@ public class WordViewModel extends AndroidViewModel {
         mAllWords = mRepository.getAllWords();
     }
 
-    LiveData<List<Word>> getAllWords() { return mAllWords; }
+    public LiveData<List<Word>> getAllWords() { return mAllWords; }
 
     public void insert(Word word) { mRepository.insert(word); }
 }

@@ -1,4 +1,4 @@
-package com.example.android.roomwordssample;
+package com.example.android.roomwordssample.ui.main;
 
 /*
  * Copyright (C) 2017 Google Inc.
@@ -17,11 +17,15 @@ package com.example.android.roomwordssample;
  */
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.android.roomwordssample.R;
+import com.example.android.roomwordssample.model.Word;
 
 import java.util.List;
 
@@ -30,10 +34,12 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
 
     class WordViewHolder extends RecyclerView.ViewHolder {
         private final TextView wordItemView;
+        private final TextView descriptionItemView;
 
         private WordViewHolder(View itemView) {
             super(itemView);
-            wordItemView = itemView.findViewById(R.id.textView);
+            wordItemView = itemView.findViewById(R.id.word);
+            descriptionItemView = itemView.findViewById(R.id.description);
         }
     }
 
@@ -43,15 +49,16 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
     WordListAdapter(Context context) { mInflater = LayoutInflater.from(context); }
 
     @Override
-    public WordViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.recyclerview_item, parent, false);
         return new WordViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(WordViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WordViewHolder holder, int position) {
         Word current = mWords.get(position);
         holder.wordItemView.setText(current.getWord());
+        holder.descriptionItemView.setText(current.getDescription());
     }
 
     void setWords(List<Word> words){

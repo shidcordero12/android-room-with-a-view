@@ -1,4 +1,4 @@
-package com.example.android.roomwordssample;
+package com.example.android.roomwordssample.ui.main;
 
 /*
  * Copyright (C) 2017 Google Inc.
@@ -30,6 +30,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.example.android.roomwordssample.R;
+import com.example.android.roomwordssample.model.Word;
+import com.example.android.roomwordssample.viewmodel.WordViewModel;
+import com.example.android.roomwordssample.ui.newword.NewWordActivity;
 
 import java.util.List;
 
@@ -85,10 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Word word = new Word(data.getStringExtra(NewWordActivity.EXTRA_REPLY));
+            Word word = new Word(data.getStringExtra(NewWordActivity.EXTRA_WORD),data.getStringExtra(NewWordActivity.EXTRA_DESCRIPTION));
             mWordViewModel.insert(word);
         } else {
             Toast.makeText(
